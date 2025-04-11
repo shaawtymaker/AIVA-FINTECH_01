@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { ArrowRight, BookOpen, PlayCircle, FileText, Landmark, CreditCard, PiggyBank, Calculator } from 'lucide-react';
+import { BookOpen, PlayCircle, FileText, Landmark, CreditCard, PiggyBank, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import AnimatedBackground from '@/components/AnimatedBackground';
@@ -153,49 +152,6 @@ const Learn = () => {
               ))}
             </div>
           </section>
-          
-          <div className="glass-card p-8 rounded-2xl bg-gradient-to-br from-finance-purple/30 to-finance-blue/30 mb-16">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-2xl font-bold mb-4">Free Financial Assessment</h2>
-                <p className="text-white/70 mb-6">
-                  Take our comprehensive financial health check to receive personalized recommendations and a roadmap to improve your finances.
-                </p>
-                <Button className="bg-finance-purple hover:bg-finance-purple/90">
-                  Start Assessment <ArrowRight size={16} className="ml-2" />
-                </Button>
-              </div>
-              <div className="bg-black/20 p-6 rounded-xl">
-                <h3 className="font-semibold mb-4">You'll receive:</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <div className="h-5 w-5 rounded-full bg-finance-purple/20 flex items-center justify-center mr-2 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <span>Personalized financial score</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="h-5 w-5 rounded-full bg-finance-purple/20 flex items-center justify-center mr-2 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <span>Custom improvement plan</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="h-5 w-5 rounded-full bg-finance-purple/20 flex items-center justify-center mr-2 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <span>Priority areas to focus on</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="h-5 w-5 rounded-full bg-finance-purple/20 flex items-center justify-center mr-2 mt-0.5">
-                      <span className="text-xs">✓</span>
-                    </div>
-                    <span>Resource recommendations</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
           
           <div className="text-center">
             <h2 className="text-2xl font-bold mb-6">Ready to learn more?</h2>

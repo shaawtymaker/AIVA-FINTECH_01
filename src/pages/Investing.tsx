@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { BarChart3, DollarSign, Percent, TrendingUp, AlertCircle, Download } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { BarChart3, DollarSign, Percent, TrendingUp, AlertCircle } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import FeatureCard from '@/components/FeatureCard';
@@ -148,16 +147,6 @@ const Investing = () => {
                 </p>
               </div>
             </div>
-          </div>
-          
-          <div className="text-center">
-            <Button 
-              className="bg-finance-purple hover:bg-finance-purple/90"
-              size="lg"
-            >
-              <Download size={16} className="mr-2" />
-              Download Beginner's Investment Guide
-            </Button>
           </div>
         </div>
       </div>
