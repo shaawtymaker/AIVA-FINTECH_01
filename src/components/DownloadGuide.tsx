@@ -3,13 +3,13 @@ import React from 'react';
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { jsPDF } from 'jspdf';
 
 const DownloadGuide = () => {
   const { toast } = useToast();
   
   const handleDownload = () => {
     // Create PDF content dynamically
-    const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
     // Add title
