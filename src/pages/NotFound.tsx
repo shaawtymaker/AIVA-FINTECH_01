@@ -1,5 +1,9 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+
+import React, { useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import { Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,13 +16,16 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
+    <div className="min-h-screen flex items-center justify-center bg-black text-white relative">
+      <AnimatedBackground />
+      <div className="text-center glass-card p-10 max-w-md animate-fade-in">
+        <h1 className="text-6xl font-bold mb-4 text-gradient">404</h1>
+        <p className="text-xl text-white/80 mb-8">Oops! This financial path doesn't exist</p>
+        <Button asChild className="bg-finance-purple hover:bg-finance-purple/90">
+          <Link to="/" className="inline-flex items-center">
+            <Home size={18} className="mr-2" /> Return to Homepage
+          </Link>
+        </Button>
       </div>
     </div>
   );
