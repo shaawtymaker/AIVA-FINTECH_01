@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Home, MessageCircle, PieChart, Lightbulb, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,25 +21,28 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-card backdrop-blur-xl bg-black/50 border-b border-white/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass-card backdrop-blur-xl border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <div className="h-10 w-10 rounded-full animated-gradient-bg flex items-center justify-center mr-2">
-                <span className="text-lg font-bold">FW</span>
+                <span className="text-lg font-bold">AI</span>
               </div>
-              <span className="text-xl font-bold text-gradient">FinanceWhisper</span>
+              <div className="flex flex-col items-start">
+                <span className="text-xl font-bold text-gradient">AIVA</span>
+                <span className="text-[10px] opacity-70 leading-none">Artificial Intelligence Value Assistant</span>
+              </div>
             </Link>
           </div>
           
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center">
             <div className="ml-10 flex items-center space-x-4">
               {menuItems.map((item) => (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="px-3 py-2 rounded-md text-sm font-medium text-white/80 hover:text-white hover:bg-white/5 transition-all"
+                  className="px-3 py-2 rounded-md text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all"
                 >
                   <div className="flex items-center space-x-1">
                     <item.icon size={16} />
@@ -46,16 +50,18 @@ const Navbar = () => {
                   </div>
                 </Link>
               ))}
-              <Button className="bg-finance-purple hover:bg-finance-purple/90 text-white" asChild>
+              <ThemeToggle />
+              <Button className="bg-finance-purple hover:bg-finance-purple/90 text-white ml-2" asChild>
                 <Link to="/auth">Get Started</Link>
               </Button>
             </div>
           </div>
           
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
             <button
               onClick={toggleMenu}
-              className="p-2 rounded-md text-white/80 hover:text-white focus:outline-none"
+              className="p-2 rounded-md text-foreground/80 hover:text-foreground focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -70,7 +76,7 @@ const Navbar = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className="block px-3 py-2 rounded-md text-base font-medium text-white/80 hover:text-white hover:bg-white/5 transition-all"
+                className="block px-3 py-2 rounded-md text-base font-medium text-foreground/80 hover:text-foreground hover:bg-foreground/5 transition-all"
                 onClick={() => setIsOpen(false)}
               >
                 <div className="flex items-center space-x-2">

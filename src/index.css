@@ -7,6 +7,29 @@
 
 @layer base {
   :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 252 85% 75%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 217 92% 74%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 174 84% 54%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -26,11 +49,12 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
-    --radius: 0.75rem;
   }
+}
 
+@layer base {
   body {
-    @apply bg-black text-white antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
   }
@@ -42,7 +66,15 @@
 
 @layer components {
   .glass-card {
-    @apply backdrop-blur-lg bg-white/5 border border-white/10 shadow-lg rounded-2xl;
+    @apply backdrop-blur-lg border shadow-lg rounded-2xl;
+  }
+  
+  .dark .glass-card {
+    @apply bg-white/5 border-white/10;
+  }
+  
+  .light .glass-card {
+    @apply bg-black/5 border-black/10;
   }
   
   .animated-gradient-bg {
@@ -53,9 +85,14 @@
     @apply relative overflow-hidden;
   }
   
-  .wave-bg::before {
+  .dark .wave-bg::before {
     content: "";
     @apply absolute inset-0 bg-[url('/wave-pattern.svg')] bg-repeat-x w-[200%] h-full opacity-10 animate-wave pointer-events-none;
+  }
+  
+  .light .wave-bg::before {
+    content: "";
+    @apply absolute inset-0 bg-[url('/wave-pattern-light.svg')] bg-repeat-x w-[200%] h-full opacity-10 animate-wave pointer-events-none;
   }
   
   .text-gradient {
