@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ArrowRight, BookOpen, PlayCircle, FileText, Landmark, CreditCard, PiggyBank } from 'lucide-react';
+import { ArrowRight, BookOpen, PlayCircle, FileText, Landmark, CreditCard, PiggyBank, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import AnimatedBackground from '@/components/AnimatedBackground';
