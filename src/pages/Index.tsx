@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, TrendingUp, PiggyBank, CreditCard, Target, Lightbulb, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -202,8 +201,11 @@ const Index = () => {
           <Button 
             size="lg" 
             className="bg-finance-purple hover:bg-finance-purple/90"
+            asChild
           >
-            Get Started For Free <ArrowRight className="ml-2" size={16} />
+            <Link to="/auth">
+              Get Started For Free <ArrowRight className="ml-2" size={16} />
+            </Link>
           </Button>
         </div>
       </section>

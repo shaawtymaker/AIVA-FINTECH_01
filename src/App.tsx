@@ -10,6 +10,7 @@ import Chat from "./pages/Chat";
 import Investing from "./pages/Investing";
 import Learn from "./pages/Learn";
 import Resources from "./pages/Resources";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/investing" element={<Investing />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/auth" element={<Auth />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

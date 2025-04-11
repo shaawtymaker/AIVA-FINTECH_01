@@ -46,8 +46,8 @@ const Navbar = () => {
                   </div>
                 </Link>
               ))}
-              <Button className="bg-finance-purple hover:bg-finance-purple/90 text-white">
-                Get Started
+              <Button className="bg-finance-purple hover:bg-finance-purple/90 text-white" asChild>
+                <Link to="/auth">Get Started</Link>
               </Button>
             </div>
           </div>
@@ -79,8 +79,8 @@ const Navbar = () => {
                 </div>
               </Link>
             ))}
-            <Button className="w-full mt-4 bg-finance-purple hover:bg-finance-purple/90 text-white">
-              Get Started
+            <Button className="w-full mt-4 bg-finance-purple hover:bg-finance-purple/90 text-white" asChild>
+              <Link to="/auth" onClick={() => setIsOpen(false)}>Get Started</Link>
             </Button>
           </div>
         </div>

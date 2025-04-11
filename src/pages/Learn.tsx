@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { ArrowRight, BookOpen, PlayCircle, FileText, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import DownloadGuide from '@/components/DownloadGuide';
 import { Link } from 'react-router-dom';
 
 const topicCategories = [
@@ -11,7 +11,7 @@ const topicCategories = [
     title: "Saving Basics",
     topics: [
       "Emergency Funds: Why You Need One",
-      "50/30/20 Budgeting Rule Explained",
+      "50/30/20 Budgeting Rule Explained", 
       "Automating Your Savings: Set It and Forget It"
     ],
     icon: BookOpen,
@@ -50,6 +50,47 @@ const Learn = () => {
           <div className="text-center mb-16">
             <h1 className="text-3xl md:text-5xl font-bold mb-4">Financial Education Center</h1>
             <p className="text-xl text-white/70 max-w-2xl mx-auto">Expand your financial knowledge with our curated resources and guides</p>
+          </div>
+          
+          <div className="glass-card p-8 rounded-2xl bg-gradient-to-br from-finance-teal/30 to-finance-purple/30 mb-16 animate-fade-in">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h2 className="text-2xl font-bold mb-4">Beginner's Investment Guide</h2>
+                <p className="text-white/70 mb-6">
+                  Start your investment journey with our comprehensive guide. Learn the basics of investing, understand different asset classes, and build your first portfolio with confidence.
+                </p>
+                <DownloadGuide />
+              </div>
+              <div className="bg-black/20 p-6 rounded-xl">
+                <h3 className="font-semibold mb-4">What's inside:</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-finance-teal/20 flex items-center justify-center mr-2 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <span>Getting started with investing</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-finance-teal/20 flex items-center justify-center mr-2 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <span>Understanding investment types</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-finance-teal/20 flex items-center justify-center mr-2 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <span>Building your first portfolio</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="h-5 w-5 rounded-full bg-finance-teal/20 flex items-center justify-center mr-2 mt-0.5">
+                      <span className="text-xs">✓</span>
+                    </div>
+                    <span>Risk management strategies</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8 mb-16">
