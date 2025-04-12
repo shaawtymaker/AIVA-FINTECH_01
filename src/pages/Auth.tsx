@@ -276,8 +276,9 @@ const Auth = () => {
                             <UserIcon className="absolute left-3 top-3 h-4 w-4 text-white/50" />
                             <Input 
                               placeholder="Your full name" 
-                              className="pl-10" 
+                              className="pl-10 bg-background text-foreground" 
                               {...field} 
+                              aria-label="Full Name"
                             />
                           </div>
                         </FormControl>
@@ -297,7 +298,8 @@ const Auth = () => {
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-white/50" />
                             <Input 
                               placeholder="Your email address" 
-                              className="pl-10" 
+                              className="pl-10 bg-background text-foreground" 
+                              type="email"
                               {...field} 
                             />
                           </div>
@@ -319,7 +321,7 @@ const Auth = () => {
                             <Input 
                               type="password" 
                               placeholder="Create a password" 
-                              className="pl-10" 
+                              className="pl-10 bg-background text-foreground" 
                               {...field} 
                             />
                           </div>
@@ -341,7 +343,7 @@ const Auth = () => {
                             <Input 
                               type="password" 
                               placeholder="Confirm your password" 
-                              className="pl-10" 
+                              className="pl-10 bg-background text-foreground" 
                               {...field} 
                             />
                           </div>
