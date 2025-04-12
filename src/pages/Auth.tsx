@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowRight, Mail, Lock, User as UserIcon, ArrowLeft } from 'lucide-react';
+import { ArrowRight, Mail, Lock, User as UserIcon, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -37,6 +37,8 @@ const signupSchema = loginSchema.extend({
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -100,6 +102,7 @@ const Auth = () => {
       
       // Redirect happens automatically via the auth listener
     } catch (error: any) {
+      console.error("Login error:", error);
       toast({
         title: "Login failed",
         description: error.message || "Please check your credentials and try again.",
@@ -114,6 +117,8 @@ const Auth = () => {
     try {
       setLoading(true);
       
+      console.log("Signup values:", values);
+      
       const { data, error } = await supabase.auth.signUp({
         email: values.email,
         password: values.password,
@@ -124,6 +129,8 @@ const Auth = () => {
         }
       });
 
+      console.log("Signup response:", data, error);
+
       if (error) throw error;
       
       toast({
@@ -133,6 +140,7 @@ const Auth = () => {
       
       // Redirect happens automatically via the auth listener
     } catch (error: any) {
+      console.error("Signup error:", error);
       toast({
         title: "Signup failed",
         description: error.message || "There was an error creating your account. Please try again.",
@@ -141,6 +149,14 @@ const Auth = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -202,7 +218,8 @@ const Auth = () => {
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-white/50" />
                             <Input 
                               placeholder="Your email address" 
-                              className="pl-10" 
+                              className="pl-10 bg-background text-foreground" 
+                              type="email"
                               {...field} 
                             />
                           </div>
@@ -222,11 +239,20 @@ const Auth = () => {
                           <div className="relative">
                             <Lock className="absolute left-3 top-3 h-4 w-4 text-white/50" />
                             <Input 
-                              type="password" 
+                              type={showPassword ? "text" : "password"}
                               placeholder="Your password" 
-                              className="pl-10" 
+                              className="pl-10 pr-10 bg-background text-foreground" 
                               {...field} 
                             />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="absolute right-0 top-0 h-10 w-10 px-3 text-white/50"
+                              onClick={togglePasswordVisibility}
+                            >
+                              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </Button>
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -319,11 +345,20 @@ const Auth = () => {
                           <div className="relative">
                             <Lock className="absolute left-3 top-3 h-4 w-4 text-white/50" />
                             <Input 
-                              type="password" 
+                              type={showPassword ? "text" : "password"}
                               placeholder="Create a password" 
-                              className="pl-10 bg-background text-foreground" 
+                              className="pl-10 pr-10 bg-background text-foreground" 
                               {...field} 
                             />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="absolute right-0 top-0 h-10 w-10 px-3 text-white/50"
+                              onClick={togglePasswordVisibility}
+                            >
+                              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </Button>
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -341,11 +376,20 @@ const Auth = () => {
                           <div className="relative">
                             <Lock className="absolute left-3 top-3 h-4 w-4 text-white/50" />
                             <Input 
-                              type="password" 
+                              type={showConfirmPassword ? "text" : "password"}
                               placeholder="Confirm your password" 
-                              className="pl-10 bg-background text-foreground" 
+                              className="pl-10 pr-10 bg-background text-foreground" 
                               {...field} 
                             />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="absolute right-0 top-0 h-10 w-10 px-3 text-white/50"
+                              onClick={toggleConfirmPasswordVisibility}
+                            >
+                              {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                            </Button>
                           </div>
                         </FormControl>
                         <FormMessage />
