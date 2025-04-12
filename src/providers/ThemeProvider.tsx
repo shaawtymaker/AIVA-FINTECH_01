@@ -11,19 +11,29 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // Initialize theme state
   const [theme, setTheme] = useState<Theme>(() => {
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    
-    // Check for system preference
-    if (!savedTheme) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Check if we're running in the browser
+    if (typeof window !== 'undefined') {
+      // Check for saved theme preference
+      const savedTheme = localStorage.getItem('theme');
+      
+      // Check for system preference
+      if (!savedTheme) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      
+      return (savedTheme as Theme) || 'dark';
     }
     
-    return (savedTheme as Theme) || 'dark';
+    // Default to dark theme if not in browser
+    return 'dark';
   });
 
   useEffect(() => {
+    // Skip if not in browser
+    if (typeof window === 'undefined') return;
+    
     // Update the class on the html element
     const root = window.document.documentElement;
     root.classList.remove('dark', 'light');
