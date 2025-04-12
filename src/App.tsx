@@ -1,4 +1,5 @@
 
+import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,33 +17,38 @@ import Auth from "./pages/Auth";
 import FeatureDetailed from "./pages/FeatureDetailed";
 import ProfileSettings from "./components/ProfileSettings";
 
+// Create a client
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/investing" element={<Investing />} />
-              <Route path="/learn" element={<Learn />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/profile" element={<ProfileSettings />} />
-              <Route path="/feature/:id" element={<FeatureDetailed />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider>
+          <AuthProvider>
+            <TooltipProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/chat" element={<Chat />} />
+                  <Route path="/investing" element={<Investing />} />
+                  <Route path="/learn" element={<Learn />} />
+                  <Route path="/resources" element={<Resources />} />
+                  <Route path="/auth" element={<Auth />} />
+                  <Route path="/profile" element={<ProfileSettings />} />
+                  <Route path="/feature/:id" element={<FeatureDetailed />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+              <Toaster />
+              <Sonner />
+            </TooltipProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </QueryClientProvider>
+    </React.StrictMode>
+  );
+};
 
 export default App;
