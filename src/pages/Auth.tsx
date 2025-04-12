@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -17,7 +17,8 @@ import {
 } from '@/components/ui/form';
 import Navbar from '@/components/Navbar';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 // Form schema
 const loginSchema = z.object({
@@ -35,8 +36,32 @@ const signupSchema = loginSchema.extend({
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        navigate('/');
+      }
+    };
+    
+    checkSession();
+    
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (session) {
+          navigate('/');
+        }
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, [navigate]);
 
   // Login form
   const loginForm = useForm<z.infer<typeof loginSchema>>({
@@ -58,30 +83,64 @@ const Auth = () => {
     },
   });
 
-  const onLoginSubmit = (values: z.infer<typeof loginSchema>) => {
-    // Simulate login
-    console.log("Login values:", values);
-    
-    toast({
-      title: "Login successful",
-      description: "Welcome back to FinanceWhisper!",
-    });
-    
-    // Redirect to dashboard/home after login
-    setTimeout(() => navigate("/"), 1500);
+  const onLoginSubmit = async (values: z.infer<typeof loginSchema>) => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+
+      if (error) throw error;
+      
+      toast({
+        title: "Login successful",
+        description: "Welcome back to FinanceWhisper!",
+      });
+      
+      // Redirect happens automatically via the auth listener
+    } catch (error: any) {
+      toast({
+        title: "Login failed",
+        description: error.message || "Please check your credentials and try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const onSignupSubmit = (values: z.infer<typeof signupSchema>) => {
-    // Simulate signup
-    console.log("Signup values:", values);
-    
-    toast({
-      title: "Account created",
-      description: "Welcome to FinanceWhisper! Your journey to financial wellness begins now.",
-    });
-    
-    // Redirect to dashboard/home after signup
-    setTimeout(() => navigate("/"), 1500);
+  const onSignupSubmit = async (values: z.infer<typeof signupSchema>) => {
+    try {
+      setLoading(true);
+      
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          data: {
+            name: values.name,
+          }
+        }
+      });
+
+      if (error) throw error;
+      
+      toast({
+        title: "Account created",
+        description: "Welcome to FinanceWhisper! Your journey to financial wellness begins now.",
+      });
+      
+      // Redirect happens automatically via the auth listener
+    } catch (error: any) {
+      toast({
+        title: "Signup failed",
+        description: error.message || "There was an error creating your account. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -188,8 +247,18 @@ const Auth = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-finance-purple hover:bg-finance-purple/90"
+                    disabled={loading}
                   >
-                    Sign In <ArrowRight size={16} className="ml-2" />
+                    {loading ? (
+                      <>
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent mr-2" />
+                        Signing In...
+                      </>
+                    ) : (
+                      <>
+                        Sign In <ArrowRight size={16} className="ml-2" />
+                      </>
+                    )}
                   </Button>
                 </form>
               </Form>
@@ -285,8 +354,18 @@ const Auth = () => {
                   <Button 
                     type="submit" 
                     className="w-full bg-finance-purple hover:bg-finance-purple/90"
+                    disabled={loading}
                   >
-                    Create Account <ArrowRight size={16} className="ml-2" />
+                    {loading ? (
+                      <>
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-r-transparent mr-2" />
+                        Creating Account...
+                      </>
+                    ) : (
+                      <>
+                        Create Account <ArrowRight size={16} className="ml-2" />
+                      </>
+                    )}
                   </Button>
                 </form>
               </Form>

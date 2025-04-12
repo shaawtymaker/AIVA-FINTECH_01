@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Menu, X, Home, MessageCircle, PieChart, Lightbulb, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ThemeToggle from './ThemeToggle';
+import UserMenu from './UserMenu';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,14 +52,13 @@ const Navbar = () => {
                 </Link>
               ))}
               <ThemeToggle />
-              <Button className="bg-finance-purple hover:bg-finance-purple/90 text-white ml-2" asChild>
-                <Link to="/auth">Get Started</Link>
-              </Button>
+              <UserMenu />
             </div>
           </div>
           
           <div className="md:hidden flex items-center space-x-2">
             <ThemeToggle />
+            <UserMenu />
             <button
               onClick={toggleMenu}
               className="p-2 rounded-md text-foreground/80 hover:text-foreground focus:outline-none"
@@ -85,9 +85,6 @@ const Navbar = () => {
                 </div>
               </Link>
             ))}
-            <Button className="w-full mt-4 bg-finance-purple hover:bg-finance-purple/90 text-white" asChild>
-              <Link to="/auth" onClick={() => setIsOpen(false)}>Get Started</Link>
-            </Button>
           </div>
         </div>
       )}
