@@ -1,12 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserCog, BadgeIndianRupee, Save, Globe, Bell, Lock, Moon, CreditCard, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import {
   Form,
   FormControl,
@@ -29,6 +29,8 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 // Form schema
 const profileSchema = z.object({
@@ -37,10 +39,10 @@ const profileSchema = z.object({
   phone: z.string().optional(),
   currency: z.string().default("INR"),
   language: z.string().default("en"),
-  darkMode: z.boolean().default(true),
+  dark_mode: z.boolean().default(true),
   notifications: z.boolean().default(true),
   newsletter: z.boolean().default(false),
-  twoFactorAuth: z.boolean().default(false),
+  two_factor_auth: z.boolean().default(false),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -48,37 +50,78 @@ type ProfileFormValues = z.infer<typeof profileSchema>;
 const ProfileSettings = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const { user, profile } = useAuth();
 
-  // Default values for form
-  const defaultValues: Partial<ProfileFormValues> = {
-    name: "Akarsh Kalapuri",
-    email: "akarsh.kalapurmut@gmail.com",
-    phone: "+91 9876543210",
-    currency: "INR",
-    language: "en",
-    darkMode: true,
-    notifications: true,
-    newsletter: false,
-    twoFactorAuth: false,
-  };
-
+  // Create form with default values
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
-    defaultValues,
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      currency: "INR",
+      language: "en",
+      dark_mode: true,
+      notifications: true,
+      newsletter: false,
+      two_factor_auth: false,
+    },
   });
 
-  function onSubmit(data: ProfileFormValues) {
+  // Set form values when profile data is available
+  useEffect(() => {
+    if (profile && user) {
+      form.reset({
+        name: profile.name || "",
+        email: user.email || "",
+        phone: profile.phone || "",
+        currency: profile.currency || "INR",
+        language: profile.language || "en",
+        dark_mode: profile.dark_mode || true,
+        notifications: profile.notifications || true,
+        newsletter: profile.newsletter || false,
+        two_factor_auth: profile.two_factor_auth || false,
+      });
+    }
+  }, [profile, user, form]);
+
+  async function onSubmit(data: ProfileFormValues) {
+    if (!user) return;
+    
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log("Profile settings updated:", data);
+    try {
+      // Update profile in database
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          name: data.name,
+          phone: data.phone,
+          currency: data.currency,
+          language: data.language,
+          dark_mode: data.dark_mode,
+          notifications: data.notifications,
+          newsletter: data.newsletter,
+          two_factor_auth: data.two_factor_auth,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
+        
+      if (error) throw error;
+      
       toast({
         title: "Settings updated",
         description: "Your profile settings have been saved successfully.",
       });
+    } catch (error: any) {
+      toast({
+        title: "Update failed",
+        description: error.message || "Failed to update profile settings.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   }
 
   return (
@@ -124,7 +167,7 @@ const ProfileSettings = () => {
                       <FormItem>
                         <FormLabel>Email Address</FormLabel>
                         <FormControl>
-                          <Input placeholder="Your email" {...field} />
+                          <Input placeholder="Your email" {...field} disabled />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -158,6 +201,7 @@ const ProfileSettings = () => {
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -199,6 +243,7 @@ const ProfileSettings = () => {
                         <Select
                           onValueChange={field.onChange}
                           defaultValue={field.value}
+                          value={field.value}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -227,7 +272,7 @@ const ProfileSettings = () => {
                   
                   <FormField
                     control={form.control}
-                    name="darkMode"
+                    name="dark_mode"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                         <div className="space-y-0.5">
@@ -300,7 +345,7 @@ const ProfileSettings = () => {
                 <div className="space-y-4">
                   <FormField
                     control={form.control}
-                    name="twoFactorAuth"
+                    name="two_factor_auth"
                     render={({ field }) => (
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                         <div className="space-y-0.5">

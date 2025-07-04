@@ -20,7 +20,7 @@ const DownloadGuide = () => {
     // Add subtitle
     doc.setFontSize(16);
     doc.setTextColor(100, 100, 100);
-    doc.text("FinanceWhisper", 20, 30);
+    doc.text("AIVA", 20, 30);
     
     // Add content sections
     doc.setFontSize(14);
