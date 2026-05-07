@@ -3,6 +3,7 @@
 ## Project info
 
 **URL**: https://aiva-36.lovable.app/
+**URL**: https://aiva-fintech-01.vercel.app/
 
 
 **Use your preferred IDE**
